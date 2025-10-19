@@ -27,57 +27,27 @@ int lcm(int a, int b) { return a / gcd(a,b) * b; }
 
 // ----------------- SOLVE FUNCTION -----------------
 
-bool isNonDecreasing(const string &p) {
-    for (int i = 1; i < p.size(); i++)
-        if (p[i] < p[i-1]) return false;
-    return true;
-}
-
-bool isPalindrome(const string &x) {
-    int l = 0, r = x.size() - 1;
-    while (l < r) {
-        if (x[l] != x[r]) return false;
-        l++; r--;
-    }
-    return true;
-}
-
 void solve() {
-    long long a, b;
-    cin >> a >> b;
+    int n;
+    cin >> n;
+    string s;
+    cin >> s;
 
-    if (a == b) {
-        cout << 0 << "\n";
-        return;
-    }
+    int cnt = 0;
+    vector<int> idx(n + 1); // store indices starting from 1
 
-    vector<long long> ops;
-    long long curr = a;
-
-    // Repeat until curr becomes b
-    while (curr != b) {
-        long long diff = curr ^ b;
-
-        // Pick the highest set bit in diff that is also set in curr
-        long long x = 1LL << 31;
-        while (x > 0 && ((diff & x) == 0 || (curr & x) == 0)) {
-            x >>= 1;
+    forn(i,n){
+        if(s[i] == '1') {
+            cnt++;
+            idx[cnt] = i + 1; // 1-based index
         }
-
-        // Safety: if no valid x found, break (should not happen)
-        if (x == 0) break;
-
-        ops.push_back(x);
-        curr ^= x;
     }
 
-    if (curr != b) {
-        cout << -1 << "\n"; // transformation impossible
-    } else {
-        cout << ops.size() << "\n";
-        for (long long x : ops) cout << x << " ";
-        cout << "\n";
+    cout << cnt << '\n';
+    for(int i = 1; i <= cnt; i++){
+        cout << idx[i] << ' ';
     }
+    cout << '\n';
 }
 
 // ----------------- MAIN -----------------
