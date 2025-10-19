@@ -33,3 +33,6 @@
 
 # CPH
 *.prob
+
+# VS Code
+*.vscode/
