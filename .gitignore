@@ -35,4 +35,4 @@
 *.prob
 
 # VS Code
-*.vscode/
+*vscode/
