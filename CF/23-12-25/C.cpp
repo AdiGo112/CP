@@ -30,93 +30,35 @@ void solve() {
     int n, k, q;
     cin >> n >> k >> q;
 
-    struct Query { int c, l, r; };
-    vector<Query> qs(q);
-    for (int i = 0; i < q; ++i) cin >> qs[i].c >> qs[i].l >> qs[i].r;
-
-    vector<int> diff1(n+3, 0), diff2(n+3, 0);
-    for (auto &Q : qs) {
-        if (Q.c == 1) {
-            diff1[Q.l] += 1;
-            diff1[Q.r + 1] -= 1;
+    vi mx(n+1, 0);
+    vi mn(n+1, 0);
+    while(q--) {
+        int c, l, r;
+        cin >> c >> l >> r;
+        for(int i = l; i <= r; i++) {
+            if(c == 2) {
+                mx[i] = 1;
+            } else {
+                mn[i] = 1;
+            }
+        }
+    }
+    vi result(n+1, 0);
+    for(int i = 1; i <= n; i++) {
+        if(mx[i] == 1 && mn[i] == 1) {
+            result[i] = k + 1;
+        } else if(mn[i] == 1) {
+            result[i] = k;
         } else {
-            diff2[Q.l] += 1;
-            diff2[Q.r + 1] -= 1;
+            result[i] = i % k;
         }
     }
-
-    vector<int> in_c1(n+1, 0), in_c2(n+1, 0);
-
-    int cur = 0;
-    for (int i = 1; i <= n; ++i) {
-        cur += diff1[i];
-        in_c1[i] = (cur > 0);
+    for (int i= 1; i<=n; i++) {
+        cout << result[i] << " ";
     }
-    cur = 0;
-    for (int i = 1; i <= n; ++i) {
-        cur += diff2[i];
-        in_c2[i] = (cur > 0);
-    }
-
-    vector<int> a(n+1, -1);
-
-    set<int> avail_for_c2;
-    for (int i = 1; i <= n; ++i) if (!in_c1[i]) avail_for_c2.insert(i);
-
-    vector<Query> c2s;
-    for (auto &Q : qs) if (Q.c == 2) c2s.push_back(Q);
+    cout << "\n";
 
 
-    for (auto &Q : c2s) {
-        int l = Q.l, r = Q.r;
-        vector<int> picked;
-
-        auto it = avail_for_c2.lower_bound(l);
-        while ((int)picked.size() < k && it != avail_for_c2.end() && *it <= r) {
-            picked.push_back(*it);
-            it = next(it);
-        }
-
-        for (int i = 0; i < k; ++i) {
-            int pos = picked[i];
-            a[pos] = i;
-            avail_for_c2.erase(pos);
-        }
-    }
-
-    set<int> avail_for_k;
-    for (int i = 1; i <= n; ++i) {
-        if (!in_c2[i] && a[i] == -1) avail_for_k.insert(i);
-    }
-
-    for (auto &Q : qs) {
-        if (Q.c != 1) continue;
-        int l = Q.l, r = Q.r;
-
-        bool hasK = false;
-        for (int pos = l; pos <= r; ++pos) {
-            if (a[pos] == k) { hasK = true; break; }
-        }
-        if (hasK) continue;
-
-        auto it = avail_for_k.lower_bound(l);
-        if (it == avail_for_k.end() || *it > r) {
-            cout << -1 << "\n";
-            return;
-        }
-
-        int pos = *it;
-        a[pos] = k;
-        avail_for_k.erase(it);
-    }
-
-    for (int i = 1; i <= n; ++i) if (a[i] == -1) a[i] = k + 1;
-
-    for (int i = 1; i <= n; ++i) {
-        if (i > 1) cout << ' ';
-        cout << a[i];
-    }
-    cout << '\n';
 }
 
 
