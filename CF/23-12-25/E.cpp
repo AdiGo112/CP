@@ -27,27 +27,58 @@ int lcm(int a, int b) { return a / gcd(a,b) * b; }
 
 // ----------------- SOLVE FUNCTION -----------------
 void solve() {
-    int n;
-    cin >> n;
-    vi a(n);
-    forn(i, n) cin >> a[i];
+    int n, x, y;
+    cin >> n >> x >> y;
 
-    int min1 = LLONG_MAX;
-    int min2 = LLONG_MAX;
+    string s;
+    cin >> s;
+
+    vi p(n);
+    int total = 0;
+    forn(i, n) {
+        cin >> p[i];
+        total += p[i];
+    }
+    if(total > x + y){
+        cout << "NO" << endl;
+        return;
+    }
+    int curX = x;
+    int curY = y;
 
     forn(i, n){
-        if (a[i] < min1) {
-            min2 = min1;
-            min1 = a[i];
-        } else if (a[i] < min2 && a[i] != min1) { 
-            min2 = a[i];
+        if(s[i] == '0'){
+            curX-= (p[i] / 2) + 1;
+        }else{
+            curY-= (p[i] / 2) + 1;
+        }
+        if(curX < 0 || curY < 0){
+            cout << "NO"<< endl;
+            return;
         }
     }
-    int ans = max(min1, min2 - min1);
-    cout << ans << '\n';
+    bool diff = false;
+    forn(i, n-1){
+        if(s[i] != s[i+1]){
+            diff = true;
+            break;
+        }
+    }
+    if(!diff){
+        if(s[0] == '0'){
+            if(x < y + n){
+                cout << "NO" << endl;
+                return;
+            }
+        }else{
+            if(y < x + n){
+                cout << "NO" << endl;
+                return;
+            }
+        }
+    }
+    cout << "YES" << endl;
 }
-
-
 // ----------------- MAIN -----------------
 int32_t main() {
     fastio;

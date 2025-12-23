@@ -29,22 +29,40 @@ int lcm(int a, int b) { return a / gcd(a,b) * b; }
 void solve() {
     int n;
     cin >> n;
-    vi a(n);
-    forn(i, n) cin >> a[i];
-
-    int min1 = LLONG_MAX;
-    int min2 = LLONG_MAX;
-
-    forn(i, n){
-        if (a[i] < min1) {
-            min2 = min1;
-            min1 = a[i];
-        } else if (a[i] < min2 && a[i] != min1) { 
-            min2 = a[i];
-        }
+    vi odds, evens;
+    forn(i, n) {
+        int x; cin >> x;
+        if (x % 2) odds.pb(x);
+        else evens.pb(x);
     }
-    int ans = max(min1, min2 - min1);
-    cout << ans << '\n';
+
+    sort(odds.rbegin(), odds.rend());
+    sort(evens.rbegin(), evens.rend());
+
+    int O = odds.size();
+    int E = evens.size();
+
+    vi preE(E + 1, 0);
+    forn(i, E) preE[i + 1] = preE[i] + evens[i];
+
+    if (O == 0) {
+        forn(k, n) cout << 0 << (k == n - 1 ? '\n' : ' ');
+        return;
+    }
+
+    int largest_odd = odds[0];
+    for (int k = 1; k <= n; k++) {
+        int L = max((int)1, k - E);
+        int R = min(k, O);
+        int x0 = (L % 2 == 1) ? L : L + 1;
+        if (x0 > R) {
+            cout << 0 << (k == n ? '\n' : ' ');
+            continue;
+        }
+        int y = k - x0;
+        int val = largest_odd + preE[y];
+        cout << val << (k == n ? '\n' : ' ');
+    }
 }
 
 

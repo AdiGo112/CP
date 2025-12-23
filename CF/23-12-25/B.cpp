@@ -26,30 +26,31 @@ int gcd(int a, int b) { return b ? gcd(b, a % b) : a; }
 int lcm(int a, int b) { return a / gcd(a,b) * b; }
 
 // ----------------- SOLVE FUNCTION -----------------
+void solve() { 
+    int n;
+    cin >> n;
+    vi a(n);
+    forn (i,n) cin >> a[i];
 
-void solve() {
-      int n;
-        int x, y;
-        cin >> n >> x >> y;
-        string s;
-        cin >> s;
+    int S = 0;
+    forn (i,n - 1) {
+        S += abs(a[i] - a[i + 1]);
+    }
 
-        int c = 0;
-        int d = 0;
-        for (char ch : s) {
-            if (ch == '8') c++;
-            else d++;
-        }
+    int best = 0;
 
-        int ax = abs(x);
-        int ay = abs(y);
+    best = max(best, abs(a[0] - a[1]));
 
-        int need = 0;
-        if (ax > c) need += (ax - c);
-        if (ay > c) need += (ay - c);
+    best = max(best, abs(a[n - 2] - a[n - 1]));
 
-        cout << (need <= d ? "YES" : "NO") << '\n';
+    for (int k = 1; k + 1 < n; k++) {
+        int gain = abs(a[k - 1] - a[k]) + abs(a[k] - a[k + 1]) - abs(a[k - 1] - a[k + 1]);
+        best = max(best, gain);
+    }
+
+    cout << S - best << "\n";
 }
+
 
 // ----------------- MAIN -----------------
 int32_t main() {

@@ -26,27 +26,14 @@ int gcd(int a, int b) { return b ? gcd(b, a % b) : a; }
 int lcm(int a, int b) { return a / gcd(a,b) * b; }
 
 // ----------------- SOLVE FUNCTION -----------------
-
 void solve() {
-    int n;
-    cin >> n;
-    vi a(n);
-    forn(i, n) cin >> a[i];
-    unordered_map<int, int> freq;
-    for (int x : a) freq[x]++;
-    int del = 0;
-    for(auto &p : freq) {
-        int x = p.first;
-        int f = p.second;
-        if (f < x){
-            del += f;
-        }else{
-            del += f - x;
-        }
-        
-    }
-    cout << del << '\n';
+    int k, x;
+    cin >> k >> x;
+    cout<<k*x +1<<endl;
+
+
 }
+
 
 // ----------------- MAIN -----------------
 int32_t main() {

@@ -26,25 +26,27 @@ int gcd(int a, int b) { return b ? gcd(b, a % b) : a; }
 int lcm(int a, int b) { return a / gcd(a,b) * b; }
 
 // ----------------- SOLVE FUNCTION -----------------
+
 void solve() {
     int n;
     cin >> n;
-    vi a(n);
-    forn(i, n) cin >> a[i];
-
-    int min1 = LLONG_MAX;
-    int min2 = LLONG_MAX;
-
-    forn(i, n){
-        if (a[i] < min1) {
-            min2 = min1;
-            min1 = a[i];
-        } else if (a[i] < min2 && a[i] != min1) { 
-            min2 = a[i];
+    string s;
+    cin >> s;
+    string t = s + s;
+    int mx = 0;
+    int curr = 0;
+    for (int i = 0; i < 2*n; i++) {
+        if (t[i] == '0') {
+            curr++;
+        } else {
+            mx = max(mx, curr);
+            curr = 0;
         }
     }
-    int ans = max(min1, min2 - min1);
-    cout << ans << '\n';
+    mx = max(mx, curr);
+    mx = min(mx, n);
+
+    cout << mx << "\n";
 }
 
 

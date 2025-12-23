@@ -27,24 +27,7 @@ int lcm(int a, int b) { return a / gcd(a,b) * b; }
 
 // ----------------- SOLVE FUNCTION -----------------
 void solve() {
-    int n;
-    cin >> n;
-    vi a(n);
-    forn(i, n) cin >> a[i];
-
-    int min1 = LLONG_MAX;
-    int min2 = LLONG_MAX;
-
-    forn(i, n){
-        if (a[i] < min1) {
-            min2 = min1;
-            min1 = a[i];
-        } else if (a[i] < min2 && a[i] != min1) { 
-            min2 = a[i];
-        }
-    }
-    int ans = max(min1, min2 - min1);
-    cout << ans << '\n';
+    
 }
 
 

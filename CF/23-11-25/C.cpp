@@ -27,24 +27,38 @@ int lcm(int a, int b) { return a / gcd(a,b) * b; }
 
 // ----------------- SOLVE FUNCTION -----------------
 void solve() {
-    int n;
-    cin >> n;
-    vi a(n);
-    forn(i, n) cin >> a[i];
+    int n, k, q;
+    cin >> n >> k >> q;
 
-    int min1 = LLONG_MAX;
-    int min2 = LLONG_MAX;
-
-    forn(i, n){
-        if (a[i] < min1) {
-            min2 = min1;
-            min1 = a[i];
-        } else if (a[i] < min2 && a[i] != min1) { 
-            min2 = a[i];
+    vi mx(n+1, 0);
+    vi mn(n+1, 0);
+    while(q--) {
+        int c, l, r;
+        cin >> c >> l >> r;
+        for(int i = l; i <= r; i++) {
+            if(c == 2) {
+                mx[i] = 1;
+            } else {
+                mn[i] = 1;
+            }
         }
     }
-    int ans = max(min1, min2 - min1);
-    cout << ans << '\n';
+    vi result(n+1, 0);
+    for(int i = 1; i <= n; i++) {
+        if(mx[i] == 1 && mn[i] == 1) {
+            result[i] = k + 1;
+        } else if(mn[i] == 1) {
+            result[i] = k;
+        } else {
+            result[i] = i % k;
+        }
+    }
+    for (int i= 1; i<=n; i++) {
+        cout << result[i] << " ";
+    }
+    cout << "\n";
+
+
 }
 
 

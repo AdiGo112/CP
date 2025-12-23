@@ -26,55 +26,47 @@ int gcd(int a, int b) { return b ? gcd(b, a % b) : a; }
 int lcm(int a, int b) { return a / gcd(a,b) * b; }
 
 // ----------------- SOLVE FUNCTION -----------------
-void solve() {        
-    int n, l, r;
-    cin >> n >> l >> r;
-    vi a(n + 1), sgn(n + 1, 0);
-    for (int i = 1; i <= n; i++) {
-        cin >> a[i];
+void solve() {
+    int n;
+    cin >> n;
+
+    int N = 1 << n;
+    int cur = N - 1;
+
+    vector<char> used(N, 0);
+
+    priority_queue<pii> pq;
+
+    forn(x, N) {
+        int score = __builtin_popcount(cur & x);
+        pq.push({score, -x});
     }
-    sort(all(a));
-    int ballance = 0;
-    for(int i = 1; i <= n; i++) {
-        if (a[i] <= l) {
-            sgn[i] = 1;
-            ballance++;
-        } else if (a[i] >= r) {
-            sgn[i] = -1;
-            ballance--;
+
+    forn(step, N) {
+        while (true) {
+            auto [score, negx] = pq.top();
+            pq.pop();
+
+            int x = -negx;
+            if (used[x]) continue;
+
+            int realScore = __builtin_popcount(cur & x);
+
+            // outdated entry → reinsert
+            if (realScore != score) {
+                pq.push({realScore, -x});
+                continue;
+            }
+
+            // valid best choice
+            used[x] = 1;
+            cout << x << (step + 1 < N ? ' ' : '\n');
+            cur &= x;
+            break;
         }
     }
-    for(int i = 1, j = n; i <= n && j >= 1; i++, j--) {
-        if (ballance > 0 && sgn[j] == 0) {
-            sgn[j] = -1;
-            ballance--;
-        }
-        if (ballance < 0 && sgn[i] == 0) {
-            sgn[i] = 1;
-            ballance++;
-        }
-    }
-    int rem = 0;
-    for(int i = 1; i <= n; i++) {
-            rem+= (sgn[i] == 0);
-    }
-    for(int i = 1, j = 1; i <= n && j <= rem/2; i++) {
-        if (sgn[i] == 0) {
-            sgn[i] = 1;
-            j++;
-        }
-    }
-    for (int i = n, j = 1; i >= 1 && j <= rem / 2; i--) {
-        if (sgn[i] == 0) sgn[i] = -1, j++;
-    }
-    int score_l = 0, score_r = 0;
-    for (int i = 1; i <= n; i++) {
-        if (sgn[i] == 1) score_l += l - a[i], score_r += r - a[i];
-        else if (sgn[i] == -1) score_l += a[i] - l, score_r += a[i] - r;
-    }
-    int result = min(score_l, score_r);
-    cout << result << "\n";
 }
+
 
 // ----------------- MAIN -----------------
 int32_t main() {

@@ -26,27 +26,27 @@ int gcd(int a, int b) { return b ? gcd(b, a % b) : a; }
 int lcm(int a, int b) { return a / gcd(a,b) * b; }
 
 // ----------------- SOLVE FUNCTION -----------------
+
 void solve() {
     int n;
     cin >> n;
     vi a(n);
     forn(i, n) cin >> a[i];
-
-    int min1 = LLONG_MAX;
-    int min2 = LLONG_MAX;
-
-    forn(i, n){
-        if (a[i] < min1) {
-            min2 = min1;
-            min1 = a[i];
-        } else if (a[i] < min2 && a[i] != min1) { 
-            min2 = a[i];
+    unordered_map<int, int> freq;
+    for (int x : a) freq[x]++;
+    int del = 0;
+    for(auto &p : freq) {
+        int x = p.first;
+        int f = p.second;
+        if (f < x){
+            del += f;
+        }else{
+            del += f - x;
         }
+        
     }
-    int ans = max(min1, min2 - min1);
-    cout << ans << '\n';
+    cout << del << '\n';
 }
-
 
 // ----------------- MAIN -----------------
 int32_t main() {
