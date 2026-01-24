@@ -82,11 +82,7 @@ ostream& operator<<(ostream& out, const vector<T>& v) {
     }
     return out;
 }
-// --------------- COMMON FUNCTIONS ---------------
-int gcd(int a, int b) { return b ? gcd(b, a % b) : a; }
-
-int lcm(int a, int b) { return a / gcd(a,b) * b; }
-
+//==================== PERMUTATION FUNCTION ====================//
 string nthPermutation(string s, int k) {
     vector<char> nums(s.begin(), s.end());
     int n = nums.size();
@@ -110,15 +106,50 @@ string nthPermutation(string s, int k) {
     return ans;
 }
 //==================== SOLVE ======================//
+bool canMake(bigInt x, vi a, vi n, vi p, ll r){
+    bigInt need = 0;
+    for(int i=0; i<3; i++){
+        bigInt req = x * a[i];
+        if(req > n[i]){
+            need += (req - n[i]) * p[i];
+        }
+        if(need > r) return false;
+    }
+    return true;
+}
 void solve(){
-    //solve here
+    string recipe; cin >> recipe;
+    vi n(3) ; cin >> n;
+    vi p(3) ; cin >> p;
+    ll r; cin >> r;
+
+    vi a(3);
+
+    for(auto &x : recipe){
+        if(x == 'B') a[0]++;
+        else if(x == 'S') a[1]++;
+        else a[2]++;
+    }
+
+    bigInt lo = 0, hi = 1e18;
+    ll ans;
+
+    while(lo <= hi){
+        ll mid = lo + (hi - lo)/2;
+        if(canMake(mid, a, n, p, r)){
+            ans = mid;
+            lo = mid + 1;
+        }
+        else hi = mid - 1;
+    }
+    cout << ans;
 }
 //==================== MAIN =======================//
 int main() {
     fastio;
 
     int t = 1;
-    cin >> t;
+    //cin >> t;
     while (t--) {
         solve();
     }

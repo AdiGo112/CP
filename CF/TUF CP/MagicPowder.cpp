@@ -82,11 +82,7 @@ ostream& operator<<(ostream& out, const vector<T>& v) {
     }
     return out;
 }
-// --------------- COMMON FUNCTIONS ---------------
-int gcd(int a, int b) { return b ? gcd(b, a % b) : a; }
-
-int lcm(int a, int b) { return a / gcd(a,b) * b; }
-
+//==================== PERMUTATION FUNCTION ====================//
 string nthPermutation(string s, int k) {
     vector<char> nums(s.begin(), s.end());
     int n = nums.size();
@@ -110,15 +106,42 @@ string nthPermutation(string s, int k) {
     return ans;
 }
 //==================== SOLVE ======================//
+bool canMake(bigInt x, vi &a, vi &b, bigInt k){
+    bigInt need = 0;
+    for(int i = 0; i < a.size(); i++){
+        bigInt req = x * a[i];
+        if(req > b[i])
+            need += (req - b[i]);
+        if(need > k) return false; // early stop
+    }
+    return true;
+}
 void solve(){
-    //solve here
+    ll n, k;
+    cin >> n >> k;
+
+    vi a(n), b(n);
+    cin >> a >> b;
+    bigInt lo = 0, hi = 1e18;
+    ll ans = 0;
+
+    while(lo <= hi){
+        bigInt mid = lo + (hi - lo) / 2;
+        if(canMake(mid, a, b, k)){
+            ans = mid;
+            lo = mid + 1;
+        }
+        else hi = mid - 1;
+    }
+
+    cout << ans;
 }
 //==================== MAIN =======================//
 int main() {
     fastio;
 
     int t = 1;
-    cin >> t;
+    //cin >> t;
     while (t--) {
         solve();
     }

@@ -111,7 +111,35 @@ string nthPermutation(string s, int k) {
 }
 //==================== SOLVE ======================//
 void solve(){
-    //solve here
+    int n, h, l;
+    cin >> n >> h >> l;
+    vi a(n);
+    cin >> a;
+
+    if(h > l){
+        swap(h,l);
+    }
+
+    int one = 0;
+    int both = 0;
+    for(int i=0; i<n; i++){
+        if(a[i] <= h){
+            both++;
+        }else if(a[i] <= l){
+            one++;
+        }
+
+    }
+    if(one < both){
+        cout << (one + both) / 2 << '\n';
+        return;
+    }else{
+        cout << both << '\n';
+        return;
+    }
+
+    
+
 }
 //==================== MAIN =======================//
 int main() {

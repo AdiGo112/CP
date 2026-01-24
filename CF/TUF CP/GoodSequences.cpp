@@ -110,15 +110,64 @@ string nthPermutation(string s, int k) {
     return ans;
 }
 //==================== SOLVE ======================//
-void solve(){
-    //solve here
+void solve() {
+    int n;
+    cin >> n;
+
+    vector<int> a(n);
+    for(int i = 0; i < n; i++) cin >> a[i];
+
+    sort(a.begin(), a.end());
+
+    int mx = a.back();
+
+    vector<int> dp(mx + 1, 0);
+    vector<int> d(mx + 1, 0);
+
+    int ans = 1;
+
+    for(int x : a) {
+        int best = 0;
+
+        // Check all divisors > 1
+        for(int i = 2; i * i <= x; i++) {
+            if(x % i == 0) {
+                best = max(best, d[i]);
+                if(i != x / i)
+                    best = max(best, d[x / i]);
+            }
+        }
+
+        // x itself is a divisor
+        best = max(best, d[x]);
+
+        dp[x] = best + 1;
+        ans = max(ans, dp[x]);
+
+        // Update all divisors > 1
+        for(int i = 2; i * i <= x; i++) {
+            if(x % i == 0) {
+                d[i] = max(d[i], dp[x]);
+                if(i != x / i)
+                    d[x / i] = max(d[x / i], dp[x]);
+            }
+        }
+
+        // Update x itself
+        d[x] = max(d[x], dp[x]);
+    }
+
+    cout << ans << "\n";
 }
+
+
+
 //==================== MAIN =======================//
 int main() {
     fastio;
 
     int t = 1;
-    cin >> t;
+    //cin >> t;
     while (t--) {
         solve();
     }
