@@ -103,8 +103,36 @@ string nthPermutation(string s,int k){
 }
 //==================== SOLVE ======================//
 void solve(){
-    //solve here
+    int n;
+    cin >> n;
+    vi a(n);
+    cin >> a;
+    vi b = a;
+    sort(all(b));
+    vector<bool> vis(n, false);
+    for(int i = 0; i < n; i++){
+        if(vis[i]) continue;
+        vi idx;
+        for(int j = i; j < n; j = 2*j + 1){
+            if(vis[j]) break;
+            vis[j] = true;
+            idx.PB(j);
+        }
+        vi va, vb;
+        for(int id : idx){
+            va.PB(a[id]);
+            vb.PB(b[id]);
+        }
+        sort(all(va));
+        sort(all(vb));
+        if(va != vb){
+            cout << "NO";
+            return;
+        }
+    }
+    cout << "YES";
 }
+
 //==================== MAIN =======================//
 int main() {
     fastio;

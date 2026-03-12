@@ -103,8 +103,32 @@ string nthPermutation(string s,int k){
 }
 //==================== SOLVE ======================//
 void solve(){
-    //solve here
+    int n;
+    cin >> n;
+    vi a(n);
+    cin >> a;
+    vector<vi> dp(n, vi(7, INF));
+    for(int x = 1; x <= 6; x++){
+        dp[0][x] = (a[0] != x);
+    }
+    for(int i = 1; i < n; i++){
+        for(int x = 1; x <= 6; x++){
+            int cost = (a[i] != x);
+            for(int y = 1; y <= 6; y++){
+                if(x != y && x + y != 7){
+                    dp[i][x] = min(dp[i][x], dp[i-1][y] + cost);
+                }
+            }
+        }
+    }
+    int ans = INF;
+    for(int x = 1; x <= 6; x++){
+        ans = min(ans, dp[n-1][x]);
+    }
+
+    cout << ans;
 }
+
 //==================== MAIN =======================//
 int main() {
     fastio;

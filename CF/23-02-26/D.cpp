@@ -102,8 +102,41 @@ string nthPermutation(string s,int k){
     return ans;
 }
 //==================== SOLVE ======================//
-void solve(){
-    //solve here
+void solve() {
+    int n;
+    ll k;
+    cin >> n >> k;
+
+    if (k < n || k > 2LL * n - 1) {
+        cout << "NO";
+        return;
+    }
+    cout << "YES\n";
+    int m = k - n + 1;
+    vi a(2 * n);
+    if (m == 1) {
+        for (int i = 0; i < n; ++i) {
+            a[2 * i] = i + 1;
+            a[2 * i + 1] = i + 1;
+        }
+    } else {
+        a[0] = 1;
+        a[1] = 2;
+        int idx = 2;
+        for (int i = 2; i <= m - 1; ++i) {
+            a[idx++] = i + 1;
+            a[idx++] = i - 1;
+        }
+        a[idx++] = m - 1;
+        a[idx++] = m;
+        for (int i = m + 1; i <= n; ++i) {
+            a[idx++] = i;
+            a[idx++] = i;
+        }
+    }
+    for (int i = 0; i < 2 * n; ++i) {
+        cout << a[i] << (i == 2 * n - 1 ? "" : " ");
+    }
 }
 //==================== MAIN =======================//
 int main() {

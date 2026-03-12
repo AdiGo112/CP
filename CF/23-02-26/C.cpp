@@ -102,8 +102,22 @@ string nthPermutation(string s,int k){
     return ans;
 }
 //==================== SOLVE ======================//
-void solve(){
-    //solve here
+void solve() {
+    int n;
+    cin >> n;
+    vi a(n);
+    cin >> a;
+    int ans = 1;
+    ll root = a[0];
+    for (int i = 1; i < n; i++) {
+        if (a[i] <= a[i - 1] + 1 && a[i] > root) {
+            continue;
+        } else {
+            ans++;
+            root = a[i];
+        }
+    }
+    cout << ans;
 }
 //==================== MAIN =======================//
 int main() {

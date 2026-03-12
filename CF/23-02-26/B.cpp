@@ -102,8 +102,80 @@ string nthPermutation(string s,int k){
     return ans;
 }
 //==================== SOLVE ======================//
-void solve(){
-    //solve here
+//void solve() {
+// int n;
+// string X;
+// cin >> n >> X;
+// int lo = 1, hi = 1;
+// for (int i = 0; i < n; i++) {
+// int len = n - i;
+// int new_lo = INT_MAX, new_hi = -1;
+//     for (int L : {lo, hi}) {
+//         if (L < lo || L > hi) continue;
+//         int R = L + len - 1;
+//         if (L > R) continue;
+//         char leftT  = (L % 2 ? 'a' : 'b');
+//         char rightT = (R % 2 ? 'a' : 'b');
+//         char c = X[i];
+//         if (c == '?' || c == leftT) {
+//             new_lo = min(new_lo, L + 1);
+//             new_hi = max(new_hi, L + 1);
+//         }
+//         if (c == '?' || c == rightT) {
+//             new_lo = min(new_lo, L);
+//             new_hi = max(new_hi, L);
+//         }
+//     }
+//     if (new_lo > new_hi) {
+//         cout << "NO";
+//         return;
+//     }
+//     lo = new_lo;
+//     hi = new_hi;
+// }
+// cout << "YES";
+//}
+void solve() {
+    int n;
+    string X;
+    cin >> n >> X;
+    int lo[2] = {INT_MAX, 1};
+    int hi[2] = {-1, 1};
+    for (int i = 0; i < n; i++) {
+        int nlo[2] = {INT_MAX, INT_MAX};
+        int nhi[2] = {-1, -1};
+        int len = n - i;
+        for (int p = 0; p < 2; p++) {
+            if (lo[p] > hi[p]) continue;
+            for (int L : {lo[p], hi[p]}) {
+                if (L < lo[p] || L > hi[p]) continue;
+                int R = L + len - 1;
+                if (L > R) continue;
+                char leftT  = (L % 2 ? 'a' : 'b');
+                char rightT = (R % 2 ? 'a' : 'b');
+                char c = X[i];
+                if (c == '?' || c == leftT) {
+                    int nl = L + 1;
+                    int np = nl % 2;
+                    nlo[np] = min(nlo[np], nl);
+                    nhi[np] = max(nhi[np], nl);
+                }
+                if (c == '?' || c == rightT) {
+                    int nl = L;
+                    int np = nl % 2;
+                    nlo[np] = min(nlo[np], nl);
+                    nhi[np] = max(nhi[np], nl);
+                }
+            }
+        }
+        lo[0] = nlo[0]; hi[0] = nhi[0];
+        lo[1] = nlo[1]; hi[1] = nhi[1];
+        if (lo[0] > hi[0] && lo[1] > hi[1]) {
+            cout << "NO";
+            return;
+        }
+    }
+    cout << "YES";
 }
 //==================== MAIN =======================//
 int main() {

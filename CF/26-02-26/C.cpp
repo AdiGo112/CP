@@ -102,9 +102,92 @@ string nthPermutation(string s,int k){
     return ans;
 }
 //==================== SOLVE ======================//
-void solve(){
-    //solve here
+// void solve(){
+//     int n; cin >> n;
+//     vector<vi> a(n);
+//     for(int i=0; i<n; i++){
+//         int m; cin >> m;
+//         a[i].resize(m);
+//         cin >> a[i];
+//         reverse(all(a[i]));
+//     }
+//     sort(all(a));
+//     unordered_set<int> seen;
+//     vi ans;
+//     for(int i=0; i<n; i++){
+//         for(int j=0; j<(int)a[i].size(); j++){
+//             if (seen.find(a[i][j]) == seen.end()){
+//                 seen.insert(a[i][j]);
+//                 ans.PB(a[i][j]);
+//             }
+//         }
+//     }
+//     cout << ans;
+// }
+bool seen_a[1000005];
+bool seen[1000005];
+
+void solve() {
+    int n;
+    cin >> n;
+    vector<vi> b(n);
+    vi added_a;
+    for (int i = 0; i < n; ++i) {
+        int l;
+        cin >> l;
+        vi a(l);
+        cin >> a;
+
+        vi temp;
+        for (int j = l - 1; j >= 0; --j) {
+            if (!seen_a[a[j]]) {
+                temp.PB(a[j]);
+                seen_a[a[j]] = true;
+                added_a.PB(a[j]);
+            }
+        }
+        b[i] = temp;
+        for (int x : added_a) seen_a[x] = false;
+        added_a.clear();
+    }
+
+    vi Q;
+    vector<bool> used(n, false);
+    
+    while (true) {
+        int best_i = -1;
+        vi best_b_prime;
+        for (int i = 0; i < n; i++) {
+            if (used[i]) continue;
+            vi b_prime;
+            for (int x : b[i]) {
+                if (!seen[x]) {
+                    b_prime.PB(x);
+                }
+            }
+            if (b_prime.empty()) {
+                used[i] = true;
+                continue;
+            }
+            if (best_i == -1 || b_prime < best_b_prime) {
+                best_i = i;
+                best_b_prime = b_prime;
+            }
+        }
+        if (best_i == -1) break;
+        used[best_i] = true;
+        for (int x : best_b_prime) {
+            Q.PB(x);
+            seen[x] = true;
+        }
+    }
+    cout << Q;
+
+    for (int x : Q) {
+        seen[x] = false;
+    }
 }
+
 //==================== MAIN =======================//
 int main() {
     fastio;

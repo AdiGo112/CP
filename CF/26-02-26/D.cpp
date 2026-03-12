@@ -102,8 +102,61 @@ string nthPermutation(string s,int k){
     return ans;
 }
 //==================== SOLVE ======================//
-void solve(){
-    //solve here
+int cool(const vi& A) {
+    int K = A.size();
+    if (K == 0) return 0;
+    vi depth_pge(K, 1);
+    vi st;
+    for (int i = 0; i < K; i++) {
+        while (!st.empty() && A[st.back()] < A[i]) {
+            st.pop_back();
+        }
+        if (!st.empty()) {
+            depth_pge[i] = depth_pge[st.back()] + 1;
+        } else {
+            depth_pge[i] = 1;
+        }
+        st.PB(i);
+    }
+    vi depth_nge(K, 1);
+    vi st2;
+    for (int i = K - 1; i >= 0; i--) {
+        while (!st2.empty() && A[st2.back()] < A[i]) {
+            st2.pop_back();
+        }
+        if (!st2.empty()) {
+            depth_nge[i] = depth_nge[st2.back()] + 1;
+        } else {
+            depth_nge[i] = 1;
+        }
+        st2.PB(i);
+    }
+    int max_len = 0;
+    for (int i = 0; i < K; i++) {
+        max_len = max(max_len, depth_pge[i] + depth_nge[i] - 1);
+    }
+    return max_len;
+}
+
+void solve() {
+    int n;
+    cin >> n;
+    vi a(n);
+    int max_idx = 0;
+    cin >> a;
+    max_idx = find(all(a), n) - a.begin();
+    vi right_part;
+    for (int i = max_idx; i < n; i++) {
+        right_part.PB(a[i]);
+    }
+    vi left_part;
+    for (int i = max_idx; i >= 0; i--) {
+        left_part.PB(a[i]);
+    }
+    int ans_right = cool(right_part);
+    int ans_left = cool(left_part);
+    int max_cool = max(ans_right, ans_left);
+    cout << n - max_cool;
 }
 //==================== MAIN =======================//
 int main() {

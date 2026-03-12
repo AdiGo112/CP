@@ -103,7 +103,44 @@ string nthPermutation(string s,int k){
 }
 //==================== SOLVE ======================//
 void solve(){
-    //solve here
+    int n;
+    cin >> n;
+    vi a(n);
+    cin >> a;
+    int first = 0;
+    int last = n+1;
+    int mx = 0;
+    int mn = n+1;
+    
+    for(int i=0; i<n; i++){
+        if(a[i] < mn){
+            mn = i;
+        }
+        mx = max(mx, a[i]);
+        if(i+1 == mx){
+            first = i;
+            break;
+        } 
+    }
+    mx = 0;
+    for(int i=n-1; i>=0; i--){
+        mx = max(mx, a[i]);
+        if(a[i] == mx){
+            last = i;
+            break;
+        }
+    }
+    if(first == 0 && last == n+1){
+        cout << a;
+        return;
+    }
+    if(first == last){
+        cout << a;
+        return;
+    }else{
+        swap(a[first], a[last]);
+    }
+    cout << a;
 }
 //==================== MAIN =======================//
 int main() {

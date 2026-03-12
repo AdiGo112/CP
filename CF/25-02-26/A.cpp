@@ -102,8 +102,12 @@ string nthPermutation(string s,int k){
     return ans;
 }
 //==================== SOLVE ======================//
-void solve(){
-    //solve here
+void solve() {
+    ll n, m, d;
+    cin >> n >> m >> d;
+    ll maxHeight = d / m + 1;
+    ll towers = (n + maxHeight - 1) / maxHeight;
+    cout << towers;
 }
 //==================== MAIN =======================//
 int main() {

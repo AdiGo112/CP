@@ -103,7 +103,17 @@ string nthPermutation(string s,int k){
 }
 //==================== SOLVE ======================//
 void solve(){
-    //solve here
+    int n;
+    cin >> n;
+    vi a(n);
+    cin >>a;
+    for(auto x : a){
+        if(x == 67) {
+            cout << "YES";
+            return;
+        }
+    }
+    cout << "NO";
 }
 //==================== MAIN =======================//
 int main() {

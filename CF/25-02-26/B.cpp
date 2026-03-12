@@ -102,8 +102,32 @@ string nthPermutation(string s,int k){
     return ans;
 }
 //==================== SOLVE ======================//
-void solve(){
-    //solve here
+void solve() {
+    string x;
+    cin >> x;
+    int sum = 0;
+    int freq[10] = {0}; 
+    for (int i = 0; i < x.length(); ++i) {
+        int d = x[i] - '0';
+        sum += d;
+        if (i == 0) {
+            freq[d - 1]++;
+        } else {
+            freq[d]++;
+        }
+    }
+    int moves = 0;
+    for (int s = 9; s >= 1; --s) {
+        while (freq[s] > 0 && sum > 9) {
+            sum -= s;
+            freq[s]--;
+            moves++;
+        }
+        if (sum <= 9) {
+            break;
+        }
+    }
+    cout << moves;
 }
 //==================== MAIN =======================//
 int main() {

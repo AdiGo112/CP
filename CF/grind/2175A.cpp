@@ -47,14 +47,17 @@ ll mod_add(ll a, ll b) {
     a %= MOD; b %= MOD;
     return (a + b) % MOD;
 }
+
 ll mod_sub(ll a, ll b) {
     a %= MOD; b %= MOD;
     return (a - b + MOD) % MOD;
 }
+
 ll mod_mul(ll a, ll b) {
     a %= MOD; b %= MOD;
     return (a * b) % MOD;
 }
+
 ll mod_pow(ll a, ll p) {
     ll res = 1;
     while (p) {
@@ -85,25 +88,54 @@ ostream& operator<<(ostream& out, const vector<T>& v) {
 }
 // --------------- COMMON FUNCTIONS ---------------
 int gcd(int a, int b) { return b ? gcd(b, a % b) : a; }
+
 int lcm(int a, int b) { return a / gcd(a,b) * b; }
-string nthPermutation(string s,int k){
-    vector<char> nums(s.begin(),s.end());
+
+string nthPermutation(string s, int k) {
+    vector<char> nums(s.begin(), s.end());
     int n = nums.size();
+
     vector<int> fact(n);
     fact[0] = 1;
-    for(int i = 1; i < n; i++)fact[i] = fact[i-1] * i;
+    for(int i = 1; i < n; i++)
+        fact[i] = fact[i-1] * i;
+
     k--; // zero-based
+
     string ans = "";
-    for(int i = n; i >= 1; i--){
+
+    for(int i = n; i >= 1; i--) {
         int idx = k / fact[i-1];
         ans += nums[idx];
         nums.erase(nums.begin() + idx);
-        k %= fact[i-1];}
+        k %= fact[i-1];
+    }
+
     return ans;
 }
 //==================== SOLVE ======================//
 void solve(){
-    //solve here
+    int n, l, r;
+    cin >> n >> l >> r;
+
+    vi b(n + 1), a(n + 1);
+
+    // Step 1: distinct prefix XORs
+    for (int i = 0; i <= n; i++) {
+        b[i] = i;
+    }
+
+    // Step 2: enforce b[l-1] == b[r]
+    b[r] = l - 1;
+
+    // Step 3: reconstruct array
+    for (int i = 1; i <= n; i++) {
+        a[i] = b[i] ^ b[i - 1];
+    }
+
+    for (int i = 1; i <= n; i++) {
+        cout << a[i] << " ";
+    }
 }
 //==================== MAIN =======================//
 int main() {

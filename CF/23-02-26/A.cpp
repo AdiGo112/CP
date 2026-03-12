@@ -102,8 +102,22 @@ string nthPermutation(string s,int k){
     return ans;
 }
 //==================== SOLVE ======================//
+bool possible(int x, int y) {
+    int t = x - 2*y;
+    if (t < 0 || t % 3 != 0) return false;
+    int low = max(0, -y);
+    int high = t / 6;
+    return low <= high;
+}
 void solve(){
-    //solve here
+    int x, y;
+    cin >> x >> y;
+    if(possible(x, y)) {
+        cout << "YES";
+    } else {
+        cout << "NO";
+    }
+    
 }
 //==================== MAIN =======================//
 int main() {

@@ -102,8 +102,43 @@ string nthPermutation(string s,int k){
     return ans;
 }
 //==================== SOLVE ======================//
-void solve(){
-    //solve here
+const int MODD = 998244353;
+
+void solve() {
+    int n;
+    cin >> n; 
+    vi T(n); cin >> T;
+    vi dp(n + 1, 0);
+    dp[0] = 1;
+
+    vi pi(n, 0);
+
+    for (int j = 0; j < n; j++) {
+        if (dp[j] == 0) continue;
+
+        dp[j + 1] = dp[j + 1] + dp[j];
+        if (dp[j + 1] >= MODD) dp[j + 1] -= MODD;
+
+        pi[0] = 0;
+        
+        for (int i = 1; i < n - j; i++) {
+            int k = pi[i - 1];
+            while (k > 0 && T[j + i] != T[j + k]) {
+                k = pi[k - 1];
+            }
+            if (T[j + i] == T[j + k]) {
+                k++;
+            }
+            pi[i] = k;
+            
+            if (pi[i] == 0) {
+                dp[j + i + 1] = dp[j + i + 1] + dp[j];
+                if (dp[j + i + 1] >= MODD) dp[j + i + 1] -= MODD;
+            }
+        }
+    }
+    
+    cout << dp[n];
 }
 //==================== MAIN =======================//
 int main() {

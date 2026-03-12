@@ -102,9 +102,30 @@ string nthPermutation(string s,int k){
     return ans;
 }
 //==================== SOLVE ======================//
-void solve(){
-    //solve here
+void solve() {
+    int n;
+    cin >> n;
+    vi p(n+1,-1);
+    vector<bool>used(n+1,false);
+    p[n] = 1;
+    used[1] = true;
+    for (int i = n-1;i>= 1;i--){
+        int a = p[i+1] + i;
+        int b = p[i+1] - i;
+        if(a>= 1 && a<=n && !used[a]){
+            p[i] = a;
+            used[a]=true;
+        }else{
+            p[i]= b;
+            used[b] =true;
+        }
+    }
+
+    for (int i= 1; i<=n; i++) {
+        cout <<p[i] << " ";
+    }
 }
+
 //==================== MAIN =======================//
 int main() {
     fastio;

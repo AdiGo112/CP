@@ -102,9 +102,49 @@ string nthPermutation(string s,int k){
     return ans;
 }
 //==================== SOLVE ======================//
-void solve(){
-    //solve here
+void solve() {
+    int n;
+    string s;
+    cin >> n >> s;
+    int students = 0;
+    for(char c : s) if (c == '1') students++;
+    if (students == 0){
+        cout << (n + 2) / 3;
+        return;
+    }
+    int l = 0, r = n - 1;
+    int front = 0;
+    while (l <= r && s[l] == '0'){
+        front++;
+        l++;
+    }
+    int back = 0;
+    while (l <= r && s[r] == '0'){
+        back++;
+        r--;
+    }
+    int add = 0;
+    if (front>0) add +=(front + 1) / 3;
+    if (back>0)  add += (back + 1) / 3;
+    while (l <= r) {
+        if (s[l] == '1'){
+            l++;
+            continue;
+        }
+        int len = 0;
+        while (l <= r && s[l] == '0'){
+            len++;
+            l++;
+        }
+        if (len > 0){
+            add +=(len - 2 + 2) / 3;
+        }
+    }
+    cout << students + add;
 }
+
+
+
 //==================== MAIN =======================//
 int main() {
     fastio;

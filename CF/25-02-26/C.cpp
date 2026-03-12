@@ -102,8 +102,46 @@ string nthPermutation(string s,int k){
     return ans;
 }
 //==================== SOLVE ======================//
-void solve(){
-    //solve here
+bool check(ll n, ll s, ll m) {
+    __int128 req = 0;
+    for (int i = 61; i >= 0; --i) {
+        req *= 2;
+        if ((s >> i) & 1LL) {
+            req++;
+        }
+        if ((m >> i) & 1LL) {
+            if (req > n) {
+                req -= n;
+            } else {
+                req = 0;
+            }
+        }
+    }
+    return req == 0;
+}
+
+void solve() {
+    ll s, m;
+    cin >> s >> m;
+    int tz = __builtin_ctzll(m);
+    if (s % (1ULL << tz) != 0) {
+        cout << -1;
+        return;
+    }
+    
+    ll low = 1, high = (s >> tz);
+    ll ans = high;
+    while (low <= high) {
+        ll mid = low + (high - low) / 2;
+        
+        if (check(mid, s, m)) {
+            ans = mid;
+            high = mid - 1;
+        } else {
+            low = mid + 1;
+        }
+    }
+    cout << ans;
 }
 //==================== MAIN =======================//
 int main() {

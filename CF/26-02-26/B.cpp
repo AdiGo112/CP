@@ -103,7 +103,25 @@ string nthPermutation(string s,int k){
 }
 //==================== SOLVE ======================//
 void solve(){
-    //solve here
+    int n;
+    cin >> n;
+    ll temp = n;
+    ll k = 1;
+    for(ll p=2; p*p <= temp; p++){
+        if (temp % p == 0) {
+            int cnt = 0;
+            while (temp% p == 0){
+                temp /= p;
+                cnt++;
+            }
+            int need = (cnt + n - 1)/n;
+            while (need--) k*= p;
+        }
+    }
+    if (temp > 1){
+        k*=temp;
+    }
+    cout << k;
 }
 //==================== MAIN =======================//
 int main() {

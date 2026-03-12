@@ -102,9 +102,29 @@ string nthPermutation(string s,int k){
     return ans;
 }
 //==================== SOLVE ======================//
-void solve(){
-    //solve here
+int countBlocks(const string &s) {
+    int blocks = 1;
+    for (int i = 1; i < (int)s.size(); i++) {
+        if (s[i] != s[i - 1]) blocks++;
+    }
+    return blocks;
 }
+
+void solve() {
+    int n;
+    string s;
+    cin >> n >> s;
+
+    int ans = 0;
+
+    for (int i = 0; i < n; i++) {
+        string rotated = s.substr(i) + s.substr(0, i);
+        ans = max(ans, countBlocks(rotated));
+    }
+
+    cout << ans;
+}
+
 //==================== MAIN =======================//
 int main() {
     fastio;

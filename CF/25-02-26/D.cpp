@@ -102,8 +102,52 @@ string nthPermutation(string s,int k){
     return ans;
 }
 //==================== SOLVE ======================//
-void solve(){
-    //solve here
+void solve() {
+    int n, m;
+    cin >> n >> m;
+    vll a(n), b(m);
+    cin >> a >> b;
+    
+    ll maxB = *max_element(all(b));
+    ll L = 1;
+    bool lcmExceeded = false;
+    for (ll x : a) {
+        ll gcdVal = gcd(L, x);
+        if (L / gcdVal > maxB / x + 1) {
+            lcmExceeded = true;
+            break;
+        }
+        L = (L / gcdVal) * x;
+        if (L > maxB) {
+            lcmExceeded = true;
+            break;
+        }
+    }
+    int cA = 0;
+    if (!lcmExceeded) {
+        for (ll y : b) {
+            if (y % L == 0) cA++;
+        }
+    }
+    int cB = 0;
+    for (ll y : b) {
+        bool divisibleByAny = false;
+        for (ll x : a) {
+            if (y % x == 0) {
+                divisibleByAny = true;
+                break;
+            }
+        }
+        if (!divisibleByAny) {
+            cB++;
+        }
+    }
+    int cS = m - cA - cB;
+    if (cA + (cS + 1) / 2 > cB) {
+        cout << "Alice";
+    } else {
+        cout << "Bob";
+    }
 }
 //==================== MAIN =======================//
 int main() {

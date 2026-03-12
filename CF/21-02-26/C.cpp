@@ -102,8 +102,45 @@ string nthPermutation(string s,int k){
     return ans;
 }
 //==================== SOLVE ======================//
-void solve(){
-    //solve here
+void solve() {
+    ll n, h, k;
+    cin >> n >> h >> k;
+    
+    vll a(n);
+    ll total = 0;
+    for(int i = 0; i < n; i++){
+        cin >> a[i];
+        total += a[i];
+    }
+    ll c = (h - 1) / total;
+    ll R = h - c * total;
+    vll minPref(n);
+    minPref[0] = a[0];
+    for(int i = 1; i < n; i++){
+        minPref[i] = min(minPref[i - 1], a[i]);
+    }
+    vll maxSuff(n);
+    maxSuff[n - 1] = a[n - 1];
+    for(int i = n - 2; i >= 0; i--){
+        maxSuff[i] = max(maxSuff[i + 1], a[i]);
+    }
+    ll prefSum = 0;
+    for(int i = 0; i < n; i++){
+        prefSum += a[i];
+        ll maxPossibleDamage = prefSum;
+        if (i < n - 1) {
+            ll swapGain = maxSuff[i + 1] - minPref[i];
+            if (swapGain > 0) {
+                maxPossibleDamage += swapGain;
+            }
+        }
+        if (maxPossibleDamage >= R) {
+            ll timeForFullCycles = c * (n + k);
+            ll timeForLastMagazine = i + 1;
+            cout << timeForFullCycles + timeForLastMagazine;
+            return;
+        }
+    }
 }
 //==================== MAIN =======================//
 int main() {

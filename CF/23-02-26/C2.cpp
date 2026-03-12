@@ -102,8 +102,44 @@ string nthPermutation(string s,int k){
     return ans;
 }
 //==================== SOLVE ======================//
-void solve(){
-    //solve here
+struct Node {
+    int idx;
+    int val;
+    int T;
+    int minT;
+};
+void solve() {
+    int n;
+    cin >> n;
+    vi a(n);
+    cin >> a;
+
+    ll ans = 0;
+    vector<Node> st;
+    st.reserve(n);
+
+    for (int i = 0; i < n; i++) {
+        int curMinT = 1e9;
+        while (!st.empty() && st.back().val >= a[i]) {
+            curMinT = min(curMinT, st.back().minT);
+            st.pop_back();
+        }
+        int L = st.empty() ? -1 : st.back().idx;
+        int Ti;
+        if (i == 0) {
+            Ti = -1;
+        } else {
+            if (a[i] <= a[i - 1] + 1 && L != -1 && a[L] == a[i] - 1) {
+                Ti = min(L, curMinT);
+            } else {
+                Ti = -1;
+            }
+        }
+        ans += 1LL * (i - Ti) * (n - i);
+        int pushMinT = min(Ti, curMinT);
+        st.push_back({i, a[i], Ti, pushMinT});
+    }
+    cout << ans;
 }
 //==================== MAIN =======================//
 int main() {

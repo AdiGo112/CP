@@ -102,8 +102,30 @@ string nthPermutation(string s,int k){
     return ans;
 }
 //==================== SOLVE ======================//
-void solve(){
-    //solve here
+void solve() {
+    int n;
+    cin >> n;
+    vi a(n);
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+    vi s = a;
+    sort(all(s));
+    if (a == s) {
+        cout << -1;
+        return;
+    }
+    int mn = s[0];
+    int mx = s[n - 1];
+    int k = 2e9;
+    for (int i = 0; i < n; i++) {
+        if (a[i] != s[i]) {
+            int aReq = max(abs(a[i] - mx), abs(a[i] - mn));
+            int sReq = max(abs(s[i] - mx), abs(s[i] - mn));
+            k = min({k, aReq, sReq});
+        }
+    }
+    cout << k;
 }
 //==================== MAIN =======================//
 int main() {

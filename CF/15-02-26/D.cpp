@@ -103,8 +103,33 @@ string nthPermutation(string s,int k){
 }
 //==================== SOLVE ======================//
 void solve(){
-    //solve here
+    int n;
+    cin >> n;
+    vll f(n+1);
+    for(int i = 1; i <= n; i++) cin >> f[i];
+    vll d(n);
+    for(int i = 1; i < n; i++){
+        d[i] = f[i+1] - f[i];
+    }
+    vll a(n+1);
+    for(int i = 2; i <= n-1; i++){
+        a[i] = (d[i] - d[i-1]) / 2;
+    }
+    ll sum1 = 0;
+    for(int i = 2; i <= n-1; i++){
+        sum1 += (i-1) * a[i];
+    }
+    a[n] = (f[1] - sum1) / (n-1);
+    ll sum2 = 0;
+    for(int i = 2; i <= n-1; i++){
+        sum2 += (n-i) * a[i];
+    }
+    a[1] = (f[n] - sum2) / (n-1);
+    for(int i = 1; i <= n; i++){
+        cout << a[i] << " ";
+    }
 }
+
 //==================== MAIN =======================//
 int main() {
     fastio;
