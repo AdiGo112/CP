@@ -29,8 +29,6 @@ int lcm(int a, int b) { return a / gcd(a,b) * b; }
 void solve() {
     
 }
-
-
 // ----------------- MAIN -----------------
 int32_t main() {
     fastio;
