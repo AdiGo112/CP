@@ -13,7 +13,7 @@ My competitive programming solutions, mostly Codeforces, written in C++.
 | `CF/grind/` | Codeforces problems solved outside contests, named by problem id (`1659C.cpp` = problem 1659C) | 39 |
 | `CF/practice/binary_search/` | Binary search practice | 3 |
 | `CF/practice/DP/` | Dynamic programming practice | 1 |
-| `CF/TUF CP/` | Problems from the TUF CP course | 3 |
+| `CF/TUF CP/` | TUF CP problems | 3 |
 | `CF/CSES/` | CSES Problem Set | 1 |
 | `CF/Hacks/` | C++ snippet: sorting while keeping original indices | 1 |
 | `CF/*_template.cpp`, `CF/simpleTemplate.cpp` | Starting templates for new solutions | 4 |
